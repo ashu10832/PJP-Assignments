@@ -8,7 +8,7 @@ pipeline {
 
    stages {
        
-      stage('Checkout SCM'){
+      stage('Checkout'){
           steps{
                           // Building only branch 'week-1' from the repo
              git branch: 'week-1', credentialsId: 'cf1552a4-19dc-4708-8ffe-c3926ec9c97c', url: 'https://github.com/ashu10832/PJP-Assignments.git'
@@ -33,6 +33,12 @@ pipeline {
                archiveArtifacts 'target/*.jar'
             }
          }
+      }
+      stage('Executing JAR'){
+        steps{
+            sh "cd target"
+            sh "java -jar *.jar"
+        }
       }
    }
 }
