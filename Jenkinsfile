@@ -10,13 +10,12 @@ pipeline {
        
       stage('Checkout'){
           steps{
-                          // Building only branch 'week-1' from the repo
-             git branch: 'week-1', credentialsId: 'cf1552a4-19dc-4708-8ffe-c3926ec9c97c', url: 'https://github.com/ashu10832/PJP-Assignments.git'
+            // Building only branch 'week-1' from the repo
+            git branch: 'week-1', credentialsId: 'cf1552a4-19dc-4708-8ffe-c3926ec9c97c', url: 'https://github.com/ashu10832/PJP-Assignments.git'
           }
       }
       stage('Build') {
          steps {
-
 
             // Run Maven on a Unix agent.
             sh "mvn -Dmaven.test.failure.ignore=true clean package"
@@ -36,8 +35,14 @@ pipeline {
       }
       stage('Executing JAR'){
         steps{
-            sh "cd target"
-            sh "java -jar *.jar"
+            script {
+                
+            sh "java -jar target/sample-project-1.0-SNAPSHOT.jar > output.out"
+            def out = readFile 'output.out'
+            println(out)
+
+             }
+
         }
       }
    }
