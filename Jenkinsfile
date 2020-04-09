@@ -6,21 +6,17 @@
         maven "M3"
       }
 
-      
+
 
       stages {
-       
-        stage('Checkout'){
-          environment {
-            GITHUB_CREDENTIALS = credentials('Github')
-          }
+
+        stage('Checkout'){         
           steps{
               // Building only branch 'week-1' from the repo
-              git branch: 'week-1', credentialsId: $GITHUB_CREDENTIALS , url: 'https://github.com/ashu10832/PJP-Assignments.git'
+              git branch: 'week-1', credentialsId: 'Github', url: 'https://github.com/ashu10832/PJP-Assignments.git'            }
             }
-          }
-          stage('Build') {
-           steps {
+            stage('Build') {
+             steps {
 
               // Run Maven on a Unix agent.
               sh "mvn -Dmaven.test.failure.ignore=true clean package"
@@ -41,7 +37,7 @@
          stage('Executing JAR'){
           steps{
             script {
-              
+
               sh "java -jar target/sample-project-1.0-SNAPSHOT.jar > output.out"
               def out = readFile 'output.out'
               println(out)
