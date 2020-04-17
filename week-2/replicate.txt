@@ -1,0 +1,37 @@
+## Procedure to create a replicate set
+
+
+Step-1 
+Start each member of the replica set with the appropriate options.
+
+The following example specifies the replica set name and the ip binding through the --replSet and --bind_ip command-line options:
+
+mongod --replSet "rs0" --bind_ip localhost,<hostname(s)|ip address(es)>
+
+
+Step-2
+Connect a mongo shell to one of the mongod instances
+
+mongo
+
+Step-3
+Initiate the replica set
+
+rs.initiate( {
+   _id : "rs0",
+   members: [
+      { _id: 0, host: "mongodb0.example.net:27017" },
+      { _id: 1, host: "mongodb1.example.net:27017" },
+      { _id: 2, host: "mongodb2.example.net:27017" }
+   ]
+})
+
+Step-4
+View the replica set configuration.
+
+rs.conf()
+
+Step-5
+Ensure that the replica set has a primary
+
+Use rs.status() to identify the primary in the replica set.
